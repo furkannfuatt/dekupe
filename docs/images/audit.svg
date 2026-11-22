@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="960" height="300" role="img" aria-labelledby="t d">
+  <title id="t">How the upstream project was audited</title>
+  <desc id="d">Source lane: the repository zip was inspected and extracted with REA (52 files, no executables, containment verified) and read as text only; the risk found is pickle .pth loading through torch.hub and torch.load, so no repository code is ever run. Weights lane: the four official ONNX files were checked statically (standard opset 12 ops only, no custom ops or external data), their SHA-256 hashes pinned, and every run re-verifies the hash before loading.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #fcfcfb; }
+    .box { fill: #ffffff; stroke: #c9c8c2; stroke-width: 1.5; }
+    .ok { fill: #e8f5ee; stroke: #1baf7a; stroke-width: 1.5; }
+    .no { fill: #fdecec; stroke: #e34948; stroke-width: 1.5; }
+    .ink { fill: #0b0b0b; } .ink2 { fill: #52514e; } .lane { fill: #8a8984; }
+    .line { stroke: #8a8984; stroke-width: 1.5; fill: none; }
+    .arrowhead { fill: #8a8984; }
+    text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1a1a19; } .box { fill: #242422; stroke: #4a4a45; }
+      .ok { fill: #16302a; stroke: #199e70; } .no { fill: #3a1f1f; stroke: #e66767; }
+      .ink { fill: #f0efec; } .ink2 { fill: #c3c2b7; } .lane { fill: #9a998f; }
+      .line { stroke: #9a998f; } .arrowhead { fill: #9a998f; }
+    }
+  </style>
+  <rect class="bg" width="960" height="300" rx="12"/>
+
+  <text class="lane" x="24" y="40" font-size="12" font-weight="600" letter-spacing="1">SOURCE CODE</text>
+  <g font-size="13">
+    <rect class="box" x="24" y="52" width="170" height="70" rx="8"/>
+    <text class="ink" x="38" y="78" font-weight="600">Repo zip</text>
+    <text class="ink2" x="38" y="98" font-size="12">downloaded to an empty</text>
+    <text class="ink2" x="38" y="113" font-size="12">quarantine folder</text>
+
+    <rect class="box" x="220" y="52" width="210" height="70" rx="8"/>
+    <text class="ink" x="234" y="78" font-weight="600">REA inspect + extract</text>
+    <text class="ink2" x="234" y="98" font-size="12">52 files · 0 executables</text>
+    <text class="ink2" x="234" y="113" font-size="12">containment verified</text>
+
+    <rect class="box" x="456" y="52" width="230" height="70" rx="8"/>
+    <text class="ink" x="470" y="78" font-weight="600">Read as text only</text>
+    <text class="ink2" x="470" y="98" font-size="12">no exec / socket / subprocess</text>
+    <text class="ink2" x="470" y="113" font-size="12">risk: pickle .pth via torch.hub</text>
+
+    <rect class="no" x="712" y="52" width="224" height="70" rx="8"/>
+    <text class="ink" x="726" y="78" font-weight="600">✕ never executed</text>
+    <text class="ink2" x="726" y="98" font-size="12">no torch.hub · no .pth</text>
+    <text class="ink2" x="726" y="113" font-size="12">inference code rewritten</text>
+  </g>
+  <line class="line" x1="194" y1="87" x2="218" y2="87" marker-end="url(#a)"/>
+  <line class="line" x1="430" y1="87" x2="454" y2="87" marker-end="url(#a)"/>
+  <line class="line" x1="686" y1="87" x2="710" y2="87" marker-end="url(#a)"/>
+
+  <text class="lane" x="24" y="176" font-size="12" font-weight="600" letter-spacing="1">MODEL WEIGHTS</text>
+  <g font-size="13">
+    <rect class="box" x="24" y="188" width="170" height="70" rx="8"/>
+    <text class="ink" x="38" y="214" font-weight="600">Official ONNX</text>
+    <text class="ink2" x="38" y="234" font-size="12">release v1.0.0</text>
+    <text class="ink2" x="38" y="249" font-size="12">4 files, no pickle</text>
+
+    <rect class="box" x="220" y="188" width="210" height="70" rx="8"/>
+    <text class="ink" x="234" y="214" font-weight="600">audit_onnx.py</text>
+    <text class="ink2" x="234" y="234" font-size="12">opset 12 standard ops only</text>
+    <text class="ink2" x="234" y="249" font-size="12">no custom op / external data</text>
+
+    <rect class="box" x="456" y="188" width="230" height="70" rx="8"/>
+    <text class="ink" x="470" y="214" font-weight="600">SHA-256 pinned</text>
+    <text class="ink2" x="470" y="234" font-size="12">models.json</text>
+    <text class="ink2" x="470" y="249" font-size="12">mismatch → deleted</text>
+
+    <rect class="ok" x="712" y="188" width="224" height="70" rx="8"/>
+    <text class="ink" x="726" y="214" font-weight="600">✓ verified every run</text>
+    <text class="ink2" x="726" y="234" font-size="12">matte.py hashes the file</text>
+    <text class="ink2" x="726" y="249" font-size="12">before loading it</text>
+  </g>
+  <line class="line" x1="194" y1="223" x2="218" y2="223" marker-end="url(#a)"/>
+  <line class="line" x1="430" y1="223" x2="454" y2="223" marker-end="url(#a)"/>
+  <line class="line" x1="686" y1="223" x2="710" y2="223" marker-end="url(#a)"/>
+</svg>

@@ -1,0 +1,23 @@
+{
+  "_note": "Pinned after the REA quarantine audit on 2026-11-22 (references/AUDIT.md). Never change a hash without re-running the audit.",
+  "rvm_mobilenetv3_fp32": {
+    "url": "https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_mobilenetv3_fp32.onnx",
+    "sha256": "88d4531297118f595bf2fd60f6f566aec2e559393802d1f436c380f0cbbd2828",
+    "size": 14975696
+  },
+  "rvm_mobilenetv3_fp16": {
+    "url": "https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_mobilenetv3_fp16.onnx",
+    "sha256": "6a0d5ce6cc17702613be548559879b4521ed424cfe14ddc48d1acaa44d616f64",
+    "size": 7503483
+  },
+  "rvm_resnet50_fp32": {
+    "url": "https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_resnet50_fp32.onnx",
+    "sha256": "25db300fcb6ee27f941a1b52c97856e8d1f13c7f35817f81a612f89af0e8a85c",
+    "size": 107479165
+  },
+  "rvm_resnet50_fp16": {
+    "url": "https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_resnet50_fp16.onnx",
+    "sha256": "a9266f5046411d604bbff38e18c54bf8c70d85d93bbc400564697590f5712738",
+    "size": 53752431
+  }
+}

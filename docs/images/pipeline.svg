@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="t d">
+  <title id="t">dekupe pipeline</title>
+  <desc id="d">ffmpeg decodes the input to raw RGB frames. On the GPU, our wrapper converts uint8 to float, runs the audited RVM ONNX model with recurrent state kept on the GPU, and packs RGBA uint8. Each frame fans out to up to five ffmpeg encoders running in parallel threads: ProRes 4444 with alpha, VP9 WebM with alpha, H.264 over green, H.264 over a new background, and a grey matte.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #fcfcfb; }
+    .box { fill: #ffffff; stroke: #c9c8c2; stroke-width: 1.5; }
+    .gpu { fill: #eaf2fc; stroke: #2a78d6; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .model { fill: #2a78d6; }
+    .modeltext { fill: #ffffff; }
+    .ink { fill: #0b0b0b; } .ink2 { fill: #52514e; } .accent { fill: #1d5fae; }
+    .line { stroke: #8a8984; stroke-width: 1.5; fill: none; }
+    .arrowhead { fill: #8a8984; }
+    .loop { stroke: #2a78d6; stroke-width: 1.5; fill: none; }
+    text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1a1a19; } .box { fill: #242422; stroke: #4a4a45; }
+      .gpu { fill: #1b2a3d; stroke: #3987e5; } .model { fill: #3987e5; }
+      .ink { fill: #f0efec; } .ink2 { fill: #c3c2b7; } .accent { fill: #8fbaf0; }
+      .line { stroke: #9a998f; } .arrowhead { fill: #9a998f; } .loop { stroke: #3987e5; }
+    }
+  </style>
+  <rect class="bg" width="960" height="400" rx="12"/>
+
+  <!-- input -->
+  <rect class="box" x="24" y="166" width="116" height="68" rx="8"/>
+  <text class="ink" x="82" y="196" font-size="15" font-weight="600" text-anchor="middle">input.mp4</text>
+  <text class="ink2" x="82" y="216" font-size="12" text-anchor="middle">any resolution</text>
+
+  <!-- decode -->
+  <rect class="box" x="168" y="166" width="124" height="68" rx="8"/>
+  <text class="ink" x="230" y="196" font-size="15" font-weight="600" text-anchor="middle">ffmpeg decode</text>
+  <text class="ink2" x="230" y="216" font-size="12" text-anchor="middle">raw rgb24 frames</text>
+  <line class="line" x1="140" y1="200" x2="166" y2="200" marker-end="url(#a)"/>
+
+  <!-- GPU region -->
+  <rect class="gpu" x="320" y="60" width="330" height="290" rx="12"/>
+  <text class="accent" x="336" y="84" font-size="13" font-weight="600">GPU · onnxruntime (CUDA / DirectML / CPU)</text>
+  <line class="line" x1="292" y1="200" x2="318" y2="200" marker-end="url(#a)"/>
+
+  <rect class="box" x="345" y="104" width="280" height="44" rx="8"/>
+  <text class="ink" x="485" y="131" font-size="13" text-anchor="middle">uint8 HWC → float NCHW / 255</text>
+
+  <rect class="model" x="345" y="170" width="280" height="62" rx="8"/>
+  <text class="modeltext" x="485" y="197" font-size="15" font-weight="600" text-anchor="middle">RVM ONNX (audited, SHA-256)</text>
+  <text class="modeltext" x="485" y="217" font-size="12" text-anchor="middle">ResNet50 / MobileNetV3 · fgr + alpha</text>
+  <path class="loop" d="M625 190 C 648 190, 648 214, 625 214" marker-end="url(#a)"/>
+  <text class="accent" x="497" y="252" font-size="11">state r1–r4 kept on GPU</text>
+
+  <rect class="box" x="345" y="268" width="280" height="44" rx="8"/>
+  <text class="ink" x="485" y="295" font-size="13" text-anchor="middle">pack RGBA uint8 (clip · ×255 · round)</text>
+
+  <line class="line" x1="485" y1="148" x2="485" y2="168" marker-end="url(#a)"/>
+  <line class="line" x1="485" y1="232" x2="485" y2="266" marker-end="url(#a)"/>
+
+  <!-- fan-out -->
+  <g font-size="13">
+    <rect class="box" x="712" y="40" width="224" height="50" rx="8"/>
+    <text class="ink" x="726" y="62" font-weight="600">ProRes 4444 + alpha</text>
+    <text class="ink2" x="726" y="80" font-size="12">.mov · Premiere / Resolve</text>
+
+    <rect class="box" x="712" y="104" width="224" height="50" rx="8"/>
+    <text class="ink" x="726" y="126" font-weight="600">VP9 + alpha</text>
+    <text class="ink2" x="726" y="144" font-size="12">.webm · Remotion / web</text>
+
+    <rect class="box" x="712" y="168" width="224" height="50" rx="8"/>
+    <text class="ink" x="726" y="190" font-weight="600">Green screen</text>
+    <text class="ink2" x="726" y="208" font-size="12">H.264 · ffmpeg overlay</text>
+
+    <rect class="box" x="712" y="232" width="224" height="50" rx="8"/>
+    <text class="ink" x="726" y="254" font-weight="600">New background</text>
+    <text class="ink2" x="726" y="272" font-size="12">image · looped video · #hex</text>
+
+    <rect class="box" x="712" y="296" width="224" height="50" rx="8"/>
+    <text class="ink" x="726" y="318" font-weight="600">Alpha matte</text>
+    <text class="ink2" x="726" y="336" font-size="12">grey .mp4 · track matte</text>
+  </g>
+  <g class="line">
+    <path d="M625 290 H668 V65 H710" marker-end="url(#a)"/>
+    <path d="M668 129 H710" marker-end="url(#a)"/>
+    <path d="M668 193 H710" marker-end="url(#a)"/>
+    <path d="M668 257 H710" marker-end="url(#a)"/>
+    <path d="M668 290 V321 H710" marker-end="url(#a)"/>
+  </g>
+  <text class="ink2" x="680" y="378" font-size="12" text-anchor="middle">one pass · one thread per encoder · audio copied</text>
+</svg>
